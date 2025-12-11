@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>星析互联 - 一站式全球跨境赋能伙伴</title>
+    <!-- 引入基础样式库 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        /* 全局基础样式 */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            scroll-behavior: smooth;
+            margin: 0;
+            padding-bottom: 80px; /* 给底部导航留空间 */
+        }
+
+        /* 新增：顶部Banner样式 */
+        .banner {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://picsum.photos/1080/400?random=1') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 0 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .banner-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
+        }
+        .banner-subtitle {
+            font-size: 0.9rem;
+            margin: 0 0 0.8rem 0;
+            opacity: 0.9;
+        }
+        .banner-tag {
+            background: rgba(255,255,255,0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* 章节样式 - 简洁规整 */
+        .section {
+            padding: 0 1rem 2rem;
+            margin-bottom: 1.5rem;
+        }
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #1a202c;
+            text-align: center;
+            margin: 0 0 1rem 0;
+        }
+        .section-subtitle {
+            font-size: 1rem;
+            color: #4a5568;
+            text-align: center;
+            margin: 0 0 1.5rem 0;
+            line-height: 1.5;
+        }
+
+        /* 卡片样式 - 统一规整 */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin: 0 0 0.8rem 0;
+            display: flex;
+            align-items: center;
+        }
+        .card-title i {
+            color: #4299e1;
+            margin-right: 0.6rem;
+            font-size: 1.2rem;
+        }
+        .card-content {
+            font-size: 0.9rem;
+            color: #4a5568;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* 按钮样式 - 统一尺寸 */
+        .btn {
+            display: block;
+            background: #4299e1;
+            color: white;
+            padding: 0.8rem 0;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            margin: 1.5rem auto;
+            width: 80%;
+            max-width: 300px;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #3182ce;
+        }
+        .btn-orange {
+            background: #ed8936;
+        }
+        .btn-orange:hover {
+            background: #dd7b22;
+        }
+
+        /* 底部导航 - 适配手机 */
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            padding: 0.6rem 0;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+            z-index: 999;
+            display: flex;
+            justify-content: space-around;
+        }
+        .nav-item {
+            color: #718096;
+            text-decoration: none;
+            font-size: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .nav-item i {
+            font-size: 1.1rem;
+            margin-bottom: 0.2rem;
+        }
+        .nav-item.active {
+            color: #4299e1;
+        }
+
+        /* 标签页样式 - 简化交互 */
+        .tab-container {
+            margin: 1rem 0;
+        }
+        .tab-btn {
+            background: #e8f4f8;
+            color: #4299e1;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            margin: 0 0.3rem 0.8rem 0;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .tab-btn.active {
+            background: #4299e1;
+            color: white;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        /* 辅助样式 */
+        .badge {
+            background: #e8f4f8;
+            color: #4299e1;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            display: inline-block;
+            margin: 0 0.3rem 0.3rem 0;
+        }
+        .platform-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin: 1rem 0;
+        }
+        .platform-item {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 0.6rem;
+            flex: 1 1 calc(33.333% - 0.6rem);
+            text-align: center;
+            font-size: 0.8rem;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .platform-item:hover {
+            background: #e8f4f8;
+            border-color: #4299e1;
+            color: #4299e1;
+        }
+        .platform-item.more {
+            color: #4299e1;
+            font-weight: 600;
+            border-color: #4299e1;
+        }
+        .福利-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            background: #f0f8fb;
+            padding: 0.8rem;
+            border-radius: 8px;
+        }
+        .福利-item i {
+            color: #ed8936;
+            font-size: 1.2rem;
+            margin-right: 0.8rem;
+            width: 20px;
+            text-align: center;
+        }
+        .福利-text {
+            font-size: 0.85rem;
+            color: #2d3748;
+        }
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        .step-num {
+            background: #4299e1;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 0.8rem;
+            flex-shrink: 0;
+            font-size: 0.8rem;
+        }
+        .step-num-orange {
+            background: #ed8936;
+        }
+        .step-text {
+            font-size: 0.85rem;
+            color: #4a5568;
+        }
+        .step-text strong {
+            color: #2d3748;
+        }
+        .case-item {
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .case-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .copyright {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #718096;
+            margin: 2rem 0 1rem 0;
+        }
+
+        /* 新增：更多平台弹窗样式 */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 350px;
+            padding: 1.5rem;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin: 0 0 1rem 0;
+            text-align: center;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.2rem;
+            color: #718096;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        .more-platform-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .more-platform-item {
+            background: #e8f4f8;
+            border-radius: 6px;
+            padding: 0.6rem;
+            flex: 1 1 calc(30% - 0.5rem);
+            text-align: center;
+            font-size: 0.8rem;
+            color: #4299e1;
+        }
+    </style>
+</head>
+<body>
+    <!-- 底部导航栏（手机端固定） -->
+    <div class="nav-bar">
+        <a href="#section1" class="nav-item active">
+            <i class="fa fa-home"></i>
+            <span>首页</span>
+        </a>
+        <a href="#section2" class="nav-item">
+            <i class="fa fa-briefcase"></i>
+            <span>业务</span>
+        </a>
+        <a href="#section3" class="nav-item">
+            <i class="fa fa-handshake-o"></i>
+            <span>合作</span>
+        </a>
+        <a href="#section4" class="nav-item">
+            <i class="fa fa-trophy"></i>
+            <span>案例</span>
+        </a>
+        <a href="#section5" class="nav-item">
+            <i class="fa fa-envelope"></i>
+            <span>联系</span>
+        </a>
+    </div>
+
+    <!-- 1. 首页/企业核心背景 -->
+    <section id="section1" class="section">
+        <!-- 新增：顶部Banner -->
+        <div class="banner">
+            <h1 class="banner-title">星析互联</h1>
+            <p class="banner-subtitle">一站式全球跨境赋能伙伴</p>
+            <div class="banner-tag">破局增长 · 链接全球</div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                <i class="fa fa-lightbulb-o"></i> 成立背景
+            </div>
+            <div class="card-content">
+                星析互联是游士集团旗下跨境服务子公司，2025年9月成立，依托集团技术、数据与全球资源，提供全链路、智能化跨境商业解决方案。
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                <i class="fa fa-star"></i> 核心愿景与使命
+            </div>
+            <div class="card-content">
+                <strong>愿景：</strong>以科技赋能跨境，以专业链接全球<br>
+                <strong>使命：</strong>让跨境变得简单
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                <i class="fa fa-rocket"></i> 四大核心优势
+            </div>
+            <div class="card-content">
+                ✅ 强大集团基因背书 | ✅ 前瞻性行业定位<br>
+                ✅ 数据驱动创新 | ✅ 资深专家团队（平均8年+经验）
+            </div>
+        </div>
+
+        <a href="#section2" class="btn">了解主营业务</a>
+    </section>
+
+    <!-- 2. 公司主营业务 -->
+    <section id="section2" class="section">
+        <h2 class="section-title">公司主营业务</h2>
+        <p class="section-subtitle">全链路跨境服务，覆盖出海全流程需求</p>
+
+        <div class="tab-container">
+            <button class="tab-btn active" onclick="switchTab('tab1')">核心业务板块</button>
+            <button class="tab-btn" onclick="switchTab('tab2')">跨境生态业务</button>
+
+            <div id="tab1" class="tab-content active">
+                <div class="card">
+                    <div class="card-title"><i class="fa fa-shopping-bag"></i> 店铺赋能</div>
+                    <div class="card-content">
+                        跨境店铺代入驻、交易、选品上品、体验分优化，提升商品曝光与转化。
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title"><i class="fa fa-picture-o"></i> 内容创作</div>
+                    <div class="card-content">
+                        主图/详情页设计、视频剪辑，视觉赋能提升商品吸引力。
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title"><i class="fa fa-truck"></i> 物流供应链</div>
+                    <div class="card-content">
+                        货代、海外仓、国际物流整合，解决跨境“难、慢、贵”痛点。
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title"><i class="fa fa-bar-chart"></i> 数据智能</div>
+                    <div class="card-content">
+                        全链路数据采集分析，实现从“经验驱动”到“精准驱动”。
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab2" class="tab-content">
+                <div class="card">
+                    <div class="card-title"><i class="fa fa-globe"></i> 海外社媒账户</div>
+                    <div class="card-content">
+                        社交账号/苹果ID/WhatsApp配置运营，跨境营销一站式解决。
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title"><i class="fa fa-users"></i> MCN机构赋能</div>
+                    <div class="card-content">
+                        达人资源匹配、campaign策划，实现品牌声量与销售双提升。
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title"><i class="fa fa-credit-card"></i> 跨境运营支持</div>
+                    <div class="card-content">
+                        广告开户、虚拟信用卡、海外手机卡，合规助力全球化营销。
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title"><i class="fa fa-certificate"></i> 内容资质一体化</div>
+                    <div class="card-content">
+                        海外MCN设立、短剧授权、执照代办，突破资质壁垒。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 1rem;">
+            <h3 style="font-size: 1rem; color: #2d3748; text-align: center; margin: 0 0 0.8rem 0;">核心业务速览</h3>
+            <div class="platform-grid">
+                <div class="platform-item">账号业务</div>
+                <div class="platform-item">代办业务</div>
+                <div class="platform-item">物流服务</div>
+                <div class="platform-item">产品上架</div>
+                <div class="platform-item">支付回款</div>
+                <div class="platform-item">网络服务</div>
+                <div class="platform-item">定制业务</div>
+                <div class="platform-item">内容营销</div>
+                <div class="platform-item">渠道对接</div>
+            </div>
+        </div>
+
+        <a href="#section3" class="btn">了解合作价值</a>
+    </section>
+
+    <!-- 3. 合作价值与服务体系 -->
+    <section id="section3" class="section">
+        <h2 class="section-title">合作价值与服务体系</h2>
+        <p class="section-subtitle">专业服务+明确流程，让出海更简单</p>
+
+        <div class="card">
+            <div class="card-title"><i class="fa fa-check-circle"></i> 四大核心合作价值</div>
+            <div class="card-content">
+                <div style="margin-bottom: 0.8rem;">
+                    <div class="badge">降本增效</div>
+                    <div class="badge">风险可控</div>
+                    <div class="badge">快速落地</div>
+                    <div class="badge">定制适配</div>
+                </div>
+                <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.85rem;">
+                    <li>节省55%运营费用，缩短80%上线周期</li>
+                    <li>合规团队提前14天风险预警</li>
+                    <li>7天从开店到产品上架销售</li>
+                    <li>按需定制，不捆绑冗余服务</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fa fa-list-ol"></i> 五步合作流程</div>
+            <div class="card-content">
+                <div class="step-item">
+                    <div class="step-num">1</div>
+                    <div class="step-text"><strong>需求沟通</strong>：了解出海目标与核心诉求</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">2</div>
+                    <div class="step-text"><strong>方案定制</strong>：输出专属解决方案与报价</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3</div>
+                    <div class="step-text"><strong>合同签订</strong>：明确条款、内容与权责</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">4</div>
+                    <div class="step-text"><strong>落地执行</strong>：专属团队推进服务落地</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">5</div>
+                    <div class="step-text"><strong>效果追踪</strong>：定期优化，迭代方案</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fa fa-shield"></i> 专业服务体系</div>
+            <div class="card-content">
+                📋 市场调研与策略规划 | 🔐 市场准入与合规<br>
+                🌐 渠道搭建与资源对接 | 💳 物流仓储与支付（T+0结汇）
+            </div>
+        </div>
+
+        <a href="#section4" class="btn">查看标杆案例</a>
+    </section>
+
+    <!-- 4. 标杆案例与服务保障 -->
+    <section id="section4" class="section">
+        <h2 class="section-title">标杆案例与服务保障</h2>
+        <p class="section-subtitle">实力见证+全方位保障，出海无忧</p>
+
+        <div class="card">
+            <div class="card-title"><i class="fa fa-trophy"></i> 多行业标杆案例</div>
+            <div class="card-content">
+                <div class="case-item">
+                    <strong>深圳家居卖家</strong><br>
+                    难点：墨西哥市场准入难、物流贵 | 成果：6个月日销500单
+                </div>
+                <div class="case-item">
+                    <strong>宁波工具厂</strong><br>
+                    难点：缺海外渠道 | 成果：3个月日销百单
+                </div>
+                <div class="case-item">
+                    <strong>杭州护肤品牌</strong><br>
+                    难点：品牌知名度低 | 成果：3个月马来细分榜TOP10
+                </div>
+                <div class="case-item">
+                    <strong>北京科技新品牌</strong><br>
+                    难点：预算有限 | 成果：融资前实现盈利
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fa fa-quote-left"></i> 客户评价</div>
+            <div class="card-content" style="font-style: italic;">
+                "合作后节省了大量时间成本，跨境服务专业度极高，强烈推荐！"
+                <div style="text-align: right; margin-top: 0.5rem; font-style: normal; font-size: 0.8rem; color: #718096;">—— TikTok电商品牌 李先生</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fa fa-life-ring"></i> 全方位服务保障</div>
+            <div class="card-content">
+                ⏱️ 1小时应急响应 | 🔒 AES256数据加密 | 🤝 合规保障金先行赔付
+            </div>
+        </div>
+
+        <a href="#section5" class="btn">立即开启出海</a>
+    </section>
+
+    <!-- 5. 联系与全球布局 -->
+    <section id="section5" class="section">
+        <h2 class="section-title">立即开启出海之旅</h2>
+        <p class="section-subtitle">简单三步，解锁专属福利，共赢全球市场</p>
+
+        <div class="card">
+            <div class="card-title"><i class="fa fa-rocket"></i> 对接流程</div>
+            <div class="card-content">
+                <div class="step-item">
+                    <div class="step-num step-num-orange">1</div>
+                    <div class="step-text"><strong>预约咨询</strong><br>免费赠送跨境资料包</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num step-num-orange">2</div>
+                    <div class="step-text"><strong>方案输出</strong><br>48小时内出具初步方案</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num step-num-orange">3</div>
+                    <div class="step-text"><strong>合作洽谈</strong><br>线上路演，敲定细节</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fa fa-gift"></i> 新客户专属福利</div>
+            <div class="card-content">
+                <div class="福利-item">
+                    <i class="fa fa-box"></i>
+                    <div class="福利-text">首月仓储费减免</div>
+                </div>
+                <div class="福利-item">
+                    <i class="fa fa-bullhorn"></i>
+                    <div class="福利-text">广告代投10%折扣</div>
+                </div>
+                <div class="福利-item">
+                    <i class="fa fa-book"></i>
+                    <div class="福利-text">赠送行业出海白皮书</div>
+                </div>
+                <div class="福利-item">
+                    <i class="fa fa-share-alt"></i>
+                    <div class="福利-text">推新引荐返5%佣金</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title"><i class="fa fa-globe"></i> 全球发展布局</div>
+            <div class="card-content">
+                <p style="text-align: center; margin: 0 0 0.8rem 0; font-size: 0.85rem;">覆盖全球主流跨境平台</p>
+                <div class="platform-grid">
+                    <div class="platform-item">亚马逊</div>
+                    <div class="platform-item">Shopee</div>
+                    <div class="platform-item">Lazada</div>
+                    <div class="platform-item">TikTok Shop</div>
+                    <div class="platform-item">Walmart</div>
+                    <div class="platform-item">AliExpress</div>
+                    <div class="platform-item">SHEIN</div>
+                    <div class="platform-item">TEMU</div>
+                    <div class="platform-item more" onclick="openMorePlatforms()">更多...</div>
+                </div>
+            </div>
+        </div>
+
+        <a href="tel:400-888-8888" class="btn btn-orange">
+            <i class="fa fa-phone"></i> 立即咨询（400-933-5713）
+        </a>
+
+        <div class="copyright">
+            <p>星析互联 - 让跨境变得简单</p>
+            <p style="margin: 0.3rem 0 0 0;">© 2025 星析互联 版权所有</p>
+        </div>
+    </section>
+
+    <!-- 新增：更多平台弹窗 -->
+    <div class="modal" id="platformModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeMorePlatforms()"><i class="fa fa-times"></i></button>
+            <h3 class="modal-title">全部跨境合作平台</h3>
+            <div class="more-platform-grid">
+                <div class="more-platform-item">亚马逊</div>
+                <div class="more-platform-item">Shopee</div>
+                <div class="more-platform-item">Lazada</div>
+                <div class="more-platform-item">TikTok Shop</div>
+                <div class="more-platform-item">Walmart</div>
+                <div class="more-platform-item">AliExpress</div>
+                <div class="more-platform-item">SHEIN</div>
+                <div class="more-platform-item">TEMU</div>
+                <div class="more-platform-item">eBay</div>
+                <div class="more-platform-item">Wish</div>
+                <div class="more-platform-item">京东国际</div>
+                <div class="more-platform-item">拼多多Temu</div>
+                <div class="more-platform-item">乐天</div>
+                <div class="more-platform-item">MercadoLibre</div>
+                <div class="more-platform-item">Cdiscount</div>
+                <div class="more-platform-item">Fnac</div>
+                <div class="more-platform-item">Ozon</div>
+                <div class="more-platform-item">Joom</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 修复标签页切换
+        function switchTab(tabId) {
+            // 移除所有激活状态
+            document.querySelectorAll('.tab-btn').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            // 激活目标标签
+            event.target.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        // 导航栏滚动高亮
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('.section');
+            const navItems = document.querySelectorAll('.nav-item');
+            let current = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.scrollY >= (sectionTop - 100)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href') === `#${current}`) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                window.scrollTo({
+                    top: target.offsetTop - 20,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // 新增：打开更多平台弹窗
+        function openMorePlatforms() {
+            const modal = document.getElementById('platformModal');
+            modal.style.display = 'flex';
+            // 禁止背景滚动
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 新增：关闭更多平台弹窗
+        function closeMorePlatforms() {
+            const modal = document.getElementById('platformModal');
+            modal.style.display = 'none';
+            // 恢复背景滚动
+            document.body.style.overflow = 'auto';
+        }
+
+        // 点击弹窗外部关闭
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('platformModal');
+            if (event.target === modal) {
+                closeMorePlatforms();
+            }
+        });
+    </script>
+</body>
+</html>
